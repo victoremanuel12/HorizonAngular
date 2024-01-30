@@ -1,0 +1,31 @@
+<form [formGroup]="formLoginAdmin" (ngSubmit)="onSubmit()" class="d-flex justify-content-center flex-column align-items-center h-100 ">
+  <h1 class="text-dark">Área Administrativa</h1>
+  <img class="w-25 h-50img-fluid rounded" src="https://t4.ftcdn.net/jpg/04/60/71/01/360_F_460710131_YkD6NsivdyYsHupNvO3Y8MPEwxTAhORh.jpg" alt="Imagem área administrativa">
+
+  <div class="input-group mb-3 w-25 mt-2">
+    <span class="input-group-text" id="basic-addon1">@</span>
+    <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" formControlName="username">
+  </div>
+  <ng-container *ngIf="formLoginAdmin.controls['username'].touched">
+    <span
+      *ngIf="formLoginAdmin.controls['username'].hasError('required')"
+      style="color: red"
+    >
+    Email é obrigatório.
+    </span>
+  </ng-container>
+
+  <div class="input-group mb-3 w-25">
+    <span class="input-group-text" id="basic-addon1">#</span>
+    <input type="password" class="form-control" placeholder="Senha" aria-label="Username" aria-describedby="basic-addon1" formControlName="password">
+  </div>
+  <ng-container *ngIf="formLoginAdmin.controls['password'].touched">
+    <span
+      *ngIf="formLoginAdmin.controls['password'].hasError('required')"
+      style="color: red"
+    >
+      Senha Obrigatória
+    </span>
+  </ng-container>
+  <button type="submit" class="btn btn-primary">Entrar</button>
+</form>

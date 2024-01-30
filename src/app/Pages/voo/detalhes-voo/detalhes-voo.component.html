@@ -1,0 +1,121 @@
+<div class="d-flex m-auto flex-hrap wh-100 justify-content-between align-items-center ">
+        <div class="d-flex justify-content-center flex-column align-items-center">
+            <img src="../../../../assets/modeloHorizon.webp" style="width: 20%; height: 30%; " alt="Logo">
+            <mat-stepper #stepper linear="true" class=" wh-50 d-flex justify-content-center m-auto overflow-auto">
+
+        
+                <mat-step [stepControl]="firstFormGroup" errorMessage="Preencha todos os campos.">
+                  <form [formGroup]="firstFormGroup" class="d-flex justify-content-center flex-column">
+                    <ng-template matStepLabel>Dados do Visitante</ng-template>
+                    <mat-form-field class="m-1 w-75 m-auto ">
+                      <mat-label>Name</mat-label>
+                      <input matInput placeholder="Last name, First name" formControlName="name" required>
+                    </mat-form-field>
+
+                    <mat-form-field class="m-1 w-75 m-auto ">
+                        <mat-label>CPF</mat-label>
+                        <input matInput placeholder="Somente numeros" formControlName="cpf" required>
+                      </mat-form-field>
+
+                      <mat-form-field class="m-1 w-75 m-auto ">
+                        <mat-label>Data de Nascimento</mat-label>
+                        <input matInput  type="date" formControlName="birthdate" required>
+                      </mat-form-field>
+
+                      <mat-form-field class="m-1 w-75 m-auto ">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Last name, First name" formControlName="email" required>
+                      </mat-form-field>
+                    <div>
+                      <button mat-button matStepperNext>Proximo</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="buyFormGroup" errorMessage="Preencha todos os campos.">
+                  <form [formGroup]="buyFormGroup" class="d-flex justify-content-center flex-column">
+                    <ng-template matStepLabel>Dados do comprador</ng-template>
+                    <mat-form-field class="m-1 w-75 m-auto ">
+                      <mat-label>Name</mat-label>
+                      <input matInput placeholder="Last name, First name" formControlName="name" required>
+                    </mat-form-field>
+
+                    <mat-form-field class="m-1 w-75 m-auto ">
+                        <mat-label>CPF</mat-label>
+                        <input matInput placeholder="Somente numeros" formControlName="cpf" required>
+                      </mat-form-field>
+
+                      <mat-form-field class="m-1 w-75 m-auto ">
+                        <mat-label>Data de Nascimento</mat-label>
+                        <input matInput  type="date" formControlName="birthdate" required>
+                      </mat-form-field>
+
+                      <mat-form-field class="m-1 w-75 m-auto ">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Last name, First name" formControlName="email" required>
+                      </mat-form-field>
+                      
+                      <mat-checkbox class="example-margin"
+                      [color]="task.color"
+                      (change)="setAll($event.checked)"> O visitante é o comprador ?
+                    </mat-checkbox>
+                    <div>
+                      <button mat-button matStepperNext>Proximo</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="secondFormGroup" errorMessage="Preencha todos os campos." >
+                    <form [formGroup]="secondFormGroup" class="d-flex justify-content-center flex-column ">
+                        <ng-template matStepLabel>Dados do Voo</ng-template>
+                        <mat-form-field class="m-1 w-75 m-auto ">
+                          <mat-label>Escolha a Classe do voo</mat-label>
+                          <mat-select formControlName="classe">
+                            <mat-option *ngFor="let class of classAir; let i = index" [value]="class.id">Classe #{{i+1}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="m-1 w-75 m-auto ">
+                            <mat-label>Quantas Poltronas deseja comprar ?</mat-label>
+                            <input matInput type="number" min="1" [max]="assentosDisponiveis"  formControlName="formassentosDisponiveis" (change)="verificaTicketsEscolhidos()"  required>
+                        </mat-form-field>
+                        <div>
+                            <div class="m-5">
+                              <button mat-button matStepperNext>Proximo</button>
+                            </div>
+                        </div>
+                      </form>
+                </mat-step>
+                <mat-step>
+                  <ng-template matStepLabel>Passageiros</ng-template>
+                  <div class="overflow-auto align-self-center  d-flex justify-content-center align-items-center  w-100" >
+                    <div class=" w-100" *ngIf="assentosEscolhidos else assentosElse">
+                      <app-acordion-passageiro [classId]="classEscolhida" class="m-5 w-100" style="margin-bottom: 10px;" *ngFor="let t of getRange(assentosEscolhidos); let i = index" [index]="i"></app-acordion-passageiro> 
+                    </div>
+                      <ng-template #assentosElse><span class="tex-center">Selecione a quantidade de poltronas para <br/> que possa informar os dados passageiro</span></ng-template>
+                  </div>
+                  <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="adicionarDadosPassageiro()" >Verificar Passageiros</button>
+                    <button mat-button [disabled]="!passageirosvalidos" matStepperNext>Proximo</button>
+                  </div>
+                </mat-step>
+                <mat-step>
+                  <ng-template matStepLabel>Finalizar Compra</ng-template>
+                  <div class="card d-flex justify-content-center align-items-center text-start">
+
+                    <h4 class="cart-title">N° Voo: {{data.code}}</h4>
+                    <h4 class="cart-title">Data e Hora: {{data.time}}</h4>
+                    <h4 class="cart-title">Origem: {{data.nameOrigin}}</h4>
+                    <h4 class="cart-title">Destino: {{data.nameDestiny}}</h4>
+                  </div>
+         
+                    <div>
+                      <button mat-button (click)="realizarCompra()" >Realizar a compra</button>
+                    </div>
+                </mat-step>
+              </mat-stepper>
+              
+        </div>
+      
+        <div  class="bg-ssa ">
+        
+        </div>
+</div>

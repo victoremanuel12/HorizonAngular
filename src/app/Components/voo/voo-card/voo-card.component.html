@@ -1,0 +1,12 @@
+<div class="card" style="width: 18rem; margin: 10px;">
+    <img class="card-img-top" src="../../../../assets/Salvador.jpg" alt="Foto Voo">
+    <div class="card-body">
+      <p class="card-text fw-*">Passagens Aereas</p>
+      <p class="card-text">N° {{data?.code}}</p>
+      <p class="card-text">Origem: {{data.nameOrigin}}</p>
+      <p class="card-text">Destino: {{data.nameDestiny}}</p>
+      <p class="card-text">Data de Saída: {{this.dateFormated}}</p>
+      <p class="card-text">Horario de Saída: {{timeFormated}}</p>
+      <a class="btn btn-primary"(click)="onSubmit(data.id)">Comprar Passagens</a>
+    </div>
+  </div>
